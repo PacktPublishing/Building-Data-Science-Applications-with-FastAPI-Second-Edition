@@ -1,0 +1,14 @@
+[tool.isort]
+profile = "black"
+
+[tool.ruff]
+ignore = ["E741"]
+
+[tool.pytest.ini_options]
+addopts = "--cov --cov-config=pyproject.toml"
+asyncio_mode = "strict"
+
+[tool.coverage.run]
+omit = [
+  "tests/*",
+]

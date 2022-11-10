@@ -1,0 +1,11 @@
+fastapi==0.86.0
+httpx==0.23.0
+
+asgi_lifespan
+black
+isort
+mypy
+pytest
+pytest-asyncio
+pytest-cov
+ruff
