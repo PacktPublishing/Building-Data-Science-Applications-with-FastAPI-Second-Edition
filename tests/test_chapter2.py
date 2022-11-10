@@ -151,12 +151,6 @@ def test_chapter2_type_hints_04():
     assert greeting() == "Hello, Anonymous"
 
 
-def test_chapter2_type_hints_05():
-    from chapter2.chapter2_type_hints_05 import greeting
-
-    assert greeting() == "Hello, Anonymous"
-
-
 def test_chapter2_non_assertive(event_loop):
     asyncio.set_event_loop(event_loop)
 
@@ -173,4 +167,3 @@ def test_chapter2_non_assertive(event_loop):
     runpy.run_module("chapter2.chapter2_type_hints_07")
     runpy.run_module("chapter2.chapter2_type_hints_08")
     runpy.run_module("chapter2.chapter2_type_hints_09")
-    runpy.run_module("chapter2.chapter2_type_hints_10")
