@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional
+from typing import Any
 
 import httpx
 import pytest
@@ -266,7 +266,7 @@ class TestRequestBody01:
         "payload", [{}, {"name": "John"}, {"name": "John", "age": "Doe"}]
     )
     async def test_get_wrong_payload(
-        self, client: httpx.AsyncClient, payload: Dict[str, Any]
+        self, client: httpx.AsyncClient, payload: dict[str, Any]
     ):
         response = await client.post("/users", json=payload)
 
@@ -288,7 +288,7 @@ class TestRequestBody02:
         "payload", [{}, {"name": "John"}, {"name": "John", "age": "Doe"}]
     )
     async def test_get_wrong_payload(
-        self, client: httpx.AsyncClient, payload: Dict[str, Any]
+        self, client: httpx.AsyncClient, payload: dict[str, Any]
     ):
         response = await client.post("/users", json=payload)
 
@@ -315,7 +315,7 @@ class TestRequestBody03:
         ],
     )
     async def test_get_wrong_payload(
-        self, client: httpx.AsyncClient, payload: Dict[str, Any]
+        self, client: httpx.AsyncClient, payload: dict[str, Any]
     ):
         response = await client.post("/users", json=payload)
 
@@ -343,7 +343,7 @@ class TestRequestBody04:
         ],
     )
     async def test_get_wrong_payload(
-        self, client: httpx.AsyncClient, payload: Dict[str, Any]
+        self, client: httpx.AsyncClient, payload: dict[str, Any]
     ):
         response = await client.post("/users", json=payload)
 
@@ -365,7 +365,7 @@ class TestFormData01:
         "payload", [{}, {"name": "John"}, {"name": "John", "age": "Doe"}]
     )
     async def test_get_wrong_payload(
-        self, client: httpx.AsyncClient, payload: Dict[str, Any]
+        self, client: httpx.AsyncClient, payload: dict[str, Any]
     ):
         response = await client.post("/users", data=payload)
 
@@ -474,7 +474,7 @@ class TestHeadersCookies02:
 @pytest.mark.asyncio
 class TestHeadersCookies03:
     @pytest.mark.parametrize("cookie", [None, "World"])
-    async def test_cookie(self, client: httpx.AsyncClient, cookie: Optional[str]):
+    async def test_cookie(self, client: httpx.AsyncClient, cookie: str | None):
         cookies = []
         if cookie:
             cookies.append(("hello", cookie))
@@ -602,7 +602,7 @@ class TestRaiseErrors01:
         password: str,
         password_confirm: str,
         status_code: int,
-        message: Dict[str, str],
+        message: dict[str, str],
     ):
         payload = {"password": password, "password_confirm": password_confirm}
         response = await client.post("/password", json=payload)
@@ -641,7 +641,7 @@ class TestRaiseErrors02:
         password: str,
         password_confirm: str,
         status_code: int,
-        message: Dict[str, str],
+        message: dict[str, str],
     ):
         payload = {"password": password, "password_confirm": password_confirm}
         response = await client.post("/password", json=payload)
