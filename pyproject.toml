@@ -2,11 +2,12 @@
 profile = "black"
 
 [tool.ruff]
-ignore = ["E741"]
+ignore = ["E501", "E741"]
 
 [tool.pytest.ini_options]
 addopts = "--cov --cov-config=pyproject.toml"
 asyncio_mode = "strict"
+markers = ["fastapi"]
 
 [tool.coverage.run]
 omit = [

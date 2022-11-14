@@ -1,12 +1,10 @@
-from typing import Dict
-
-from chapter3_project.models.user import User
-from chapter3_project.models.post import Post
+from chapter3_project.schemas.post import Post
+from chapter3_project.schemas.user import User
 
 
 class DummyDatabase:
-    users: Dict[int, User] = {}
-    posts: Dict[int, Post] = {}
+    users: dict[int, User] = {}
+    posts: dict[int, Post] = {}
 
 
 db = DummyDatabase()

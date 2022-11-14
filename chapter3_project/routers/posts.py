@@ -1,15 +1,13 @@
-from typing import List
-
 from fastapi import APIRouter, HTTPException, status
 
-from chapter3_project.models.post import Post, PostCreate
 from chapter3_project.db import db
+from chapter3_project.schemas.post import Post, PostCreate
 
 router = APIRouter()
 
 
 @router.get("/")
-async def all() -> List[Post]:
+async def all() -> list[Post]:
     return list(db.posts.values())
 
 
