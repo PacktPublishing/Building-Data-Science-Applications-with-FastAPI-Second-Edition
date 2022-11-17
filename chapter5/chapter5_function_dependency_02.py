@@ -1,4 +1,3 @@
-
 from fastapi import Depends, FastAPI, Query
 
 app = FastAPI()
