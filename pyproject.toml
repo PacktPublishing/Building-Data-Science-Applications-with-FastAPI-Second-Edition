@@ -4,11 +4,15 @@ profile = "black"
 [tool.mypy]
 plugins = "sqlalchemy.ext.mypy.plugin"
 
+[[tool.mypy.overrides]]
+module = "motor.*"
+ignore_missing_imports = true
+
 [tool.ruff]
 ignore = ["E501", "E741"]
 
 [tool.pytest.ini_options]
-addopts = "--cov --cov-config=pyproject.toml"
+addopts = "--cov --cov-report=term-missing --cov-config=pyproject.toml"
 asyncio_mode = "strict"
 markers = ["fastapi"]
 
