@@ -8,7 +8,7 @@ from pydantic import ValidationError
 from chapter4.chapter4_working_pydantic_objects_04 import (
     app as chapter4_working_pydantic_objects_04_app,
 )
-from chapter4.chapter4_working_pydantic_objects_05 import PostDB
+from chapter4.chapter4_working_pydantic_objects_05 import Post
 from chapter4.chapter4_working_pydantic_objects_05 import (
     app as chapter4_working_pydantic_objects_05_app,
 )
@@ -263,7 +263,7 @@ class TestWorkingPydanticObjects05:
         assert response.status_code == status.HTTP_404_NOT_FOUND
 
     async def test_valid_payload(self, client: httpx.AsyncClient):
-        db.posts = {1: PostDB(id=1, title="Foo", content="Bar")}
+        db.posts = {1: Post(id=1, title="Foo", content="Bar")}
         response = await client.patch("/posts/1", json={"title": "New title"})
 
         assert response.status_code == status.HTTP_200_OK

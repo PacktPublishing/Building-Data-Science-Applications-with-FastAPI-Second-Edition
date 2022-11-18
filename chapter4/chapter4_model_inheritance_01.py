@@ -6,13 +6,13 @@ class PostCreate(BaseModel):
     content: str
 
 
-class PostPublic(BaseModel):
+class PostRead(BaseModel):
     id: int
     title: str
     content: str
 
 
-class PostDB(BaseModel):
+class Post(BaseModel):
     id: int
     title: str
     content: str

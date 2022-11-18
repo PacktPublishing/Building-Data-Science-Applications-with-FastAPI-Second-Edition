@@ -16,17 +16,17 @@ class PostCreate(PostBase):
     pass
 
 
-class PostPublic(PostBase):
+class PostRead(PostBase):
     id: int
 
 
-class PostDB(PostBase):
+class Post(PostBase):
     id: int
     nb_views: int = 0
 
 
 class DummyDatabase:
-    posts: dict[int, PostDB] = {}
+    posts: dict[int, Post] = {}
 
 
 db = DummyDatabase()
@@ -35,7 +35,7 @@ db = DummyDatabase()
 app = FastAPI()
 
 
-@app.patch("/posts/{id}", response_model=PostPublic)
+@app.patch("/posts/{id}", response_model=PostRead)
 async def partial_update(id: int, post_update: PostPartialUpdate):
     try:
         post_db = db.posts[id]

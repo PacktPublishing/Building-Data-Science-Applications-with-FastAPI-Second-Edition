@@ -13,10 +13,10 @@ class PostCreate(PostBase):
     pass
 
 
-class PostPublic(PostBase):
+class PostRead(PostBase):
     id: int
 
 
-class PostDB(PostBase):
+class Post(PostBase):
     id: int
     nb_views: int = 0
