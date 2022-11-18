@@ -1,6 +1,9 @@
 [tool.isort]
 profile = "black"
 
+[tool.mypy]
+plugins = "sqlalchemy.ext.mypy.plugin"
+
 [tool.ruff]
 ignore = ["E501", "E741"]
 
