@@ -17,6 +17,7 @@ asyncio_mode = "strict"
 markers = ["fastapi"]
 
 [tool.coverage.run]
+concurrency = ["thread", "greenlet"]
 omit = [
   "tests/*",
 ]
