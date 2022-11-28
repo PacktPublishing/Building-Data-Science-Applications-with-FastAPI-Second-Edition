@@ -8,6 +8,10 @@ plugins = "sqlalchemy.ext.mypy.plugin"
 module = "motor.*"
 ignore_missing_imports = true
 
+[[tool.mypy.overrides]]
+module = "broadcaster.*"
+ignore_missing_imports = true
+
 [tool.ruff]
 ignore = ["E501", "E741"]
 

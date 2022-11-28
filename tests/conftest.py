@@ -6,6 +6,7 @@ import pytest
 import pytest_asyncio
 from asgi_lifespan import LifespanManager
 from fastapi import FastAPI
+from httpx_ws.transport import ASGIWebSocketTransport
 
 
 @pytest.fixture(scope="session")
@@ -43,7 +44,9 @@ async def client(
     if not isinstance(run_lifespan_events, bool):
         raise ValueError("client fixture: run_lifespan_events must be a bool")
 
-    test_client_generator = httpx.AsyncClient(app=app, base_url="http://app.io")
+    test_client_generator = httpx.AsyncClient(
+        base_url="http://app.io", transport=ASGIWebSocketTransport(app)
+    )
     if run_lifespan_events:
         async with LifespanManager(app):
             async with test_client_generator as test_client:
