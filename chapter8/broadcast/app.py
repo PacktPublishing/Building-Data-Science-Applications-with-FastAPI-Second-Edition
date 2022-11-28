@@ -48,7 +48,7 @@ async def websocket_endpoint(websocket: WebSocket, username: str = "Anonymous"):
             for task in done:
                 task.result()
     except WebSocketDisconnect:
-        await websocket.close()
+        pass
 
 
 @app.on_event("startup")

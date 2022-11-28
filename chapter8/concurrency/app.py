@@ -33,4 +33,4 @@ async def websocket_endpoint(websocket: WebSocket):
             for task in done:
                 task.result()
     except WebSocketDisconnect:
-        await websocket.close()
+        pass

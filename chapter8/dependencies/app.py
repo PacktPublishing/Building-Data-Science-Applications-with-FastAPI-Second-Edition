@@ -1,4 +1,4 @@
-from fastapi import Cookie, FastAPI, WebSocket, status
+from fastapi import Cookie, FastAPI, WebSocket, status, WebSocketException
 from starlette.websockets import WebSocketDisconnect
 
 API_TOKEN = "SECRET_API_TOKEN"
@@ -8,15 +8,12 @@ app = FastAPI()
 
 @app.websocket("/ws")
 async def websocket_endpoint(
-    websocket: WebSocket,
-    username: str = "Anonymous",
-    token: str | None = Cookie(None),
+    websocket: WebSocket, username: str = "Anonymous", token: str = Cookie(...)
 ):
-    await websocket.accept()
-
     if token != API_TOKEN:
-        await websocket.close(code=status.WS_1008_POLICY_VIOLATION)
-        return
+        raise WebSocketException(status.WS_1008_POLICY_VIOLATION)
+
+    await websocket.accept()
 
     await websocket.send_text(f"Hello, {username}!")
     try:
@@ -24,4 +21,4 @@ async def websocket_endpoint(
             data = await websocket.receive_text()
             await websocket.send_text(f"Message text was: {data}")
     except WebSocketDisconnect:
-        await websocket.close()
+        pass
