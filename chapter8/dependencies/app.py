@@ -1,4 +1,4 @@
-from fastapi import Cookie, FastAPI, WebSocket, status, WebSocketException
+from fastapi import Cookie, FastAPI, WebSocket, WebSocketException, status
 from starlette.websockets import WebSocketDisconnect
 
 API_TOKEN = "SECRET_API_TOKEN"
