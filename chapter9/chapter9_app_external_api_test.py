@@ -12,17 +12,17 @@ from chapter9.chapter9_app_external_api import app, external_api
 
 class MockExternalAPI:
     mock_data = {
-        "data": [
+        "products": [
             {
-                "employee_age": 61,
-                "employee_name": "Tiger Nixon",
-                "employee_salary": 320800,
                 "id": 1,
-                "profile_image": "",
-            }
+                "title": "iPhone 9",
+                "description": "An apple mobile which is nothing like apple",
+                "thumbnail": "https://i.dummyjson.com/data/products/1/thumbnail.jpg",
+            },
         ],
-        "status": "success",
-        "message": "Success",
+        "total": 1,
+        "skip": 0,
+        "limit": 30,
     }
 
     async def __call__(self) -> dict[str, Any]:
@@ -45,8 +45,8 @@ async def test_client():
 
 
 @pytest_asyncio.fixture
-async def test_get_employees(test_client: httpx.AsyncClient):
-    response = await test_client.get("/employees")
+async def test_get_products(test_client: httpx.AsyncClient):
+    response = await test_client.get("/products")
 
     assert response.status_code == status.HTTP_200_OK
 
