@@ -26,7 +26,6 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint and typecheck
       run: |
-        isort --check .
         black --check .
         ruff .
         mypy .
