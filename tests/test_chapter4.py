@@ -8,7 +8,10 @@ from pydantic import ValidationError
 from chapter4.chapter4_working_pydantic_objects_04 import (
     app as chapter4_working_pydantic_objects_04_app,
 )
-from chapter4.chapter4_working_pydantic_objects_05 import Post, db
+from chapter4.chapter4_working_pydantic_objects_05 import (
+    Post,
+    db,
+)
 from chapter4.chapter4_working_pydantic_objects_05 import (
     app as chapter4_working_pydantic_objects_05_app,
 )
