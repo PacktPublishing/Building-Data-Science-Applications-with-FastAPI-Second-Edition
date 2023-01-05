@@ -5,8 +5,11 @@ email-validator==1.3.0
 fastapi==0.88.0
 httpx==0.23.1
 motor==3.1.1
+numpy==1.24.1
+pandas==1.5.2
 passlib==1.7.4
 python-multipart==0.0.5
+scikit-learn==1.2.0
 sqlalchemy[asyncio,mypy]==1.4.44
 starlette-csrf==1.4.5
 
@@ -17,6 +20,7 @@ asgi_lifespan
 black
 httpx-ws
 mypy
+pandas-stubs
 pytest
 pytest-asyncio
 pytest-cov

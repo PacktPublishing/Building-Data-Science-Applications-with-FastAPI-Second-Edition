@@ -9,6 +9,10 @@ ignore_missing_imports = true
 module = "broadcaster.*"
 ignore_missing_imports = true
 
+[[tool.mypy.overrides]]
+module = "sklearn.*"
+ignore_missing_imports = true
+
 [tool.ruff]
 extend-select = ["I"]
 ignore = ["E501", "E741"]
