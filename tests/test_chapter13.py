@@ -11,7 +11,8 @@ from chapter13.websocket_object_detection.app import (
     app as chapter13_websocket_object_detection_app,
 )
 
-people_image_file = Path(__file__).parent.parent / "assets" / "people.jpg"
+coffee_shop_image_file = Path(__file__).parent.parent / "assets" / "coffee-shop.jpg"
+detected_labels = {"person", "couch", "chair", "laptop", "dining table"}
 
 
 @pytest.mark.fastapi(app=chapter13_api_app)
@@ -24,7 +25,7 @@ class TestChapter13API:
 
     async def test_valid_payload(self, client: httpx.AsyncClient):
         response = await client.post(
-            "/object-detection", files={"image": open(people_image_file, "rb")}
+            "/object-detection", files={"image": open(coffee_shop_image_file, "rb")}
         )
 
         assert response.status_code == status.HTTP_200_OK
@@ -33,7 +34,7 @@ class TestChapter13API:
         assert len(objects) > 0
         for object in objects:
             assert "box" in object
-            assert object["label"] in {"person", "cell phone"}
+            assert object["label"] in detected_labels
 
 
 @pytest.mark.fastapi(app=chapter13_websocket_object_detection_app)
@@ -41,19 +42,19 @@ class TestChapter13API:
 class TestChapter13WebSocketobjectDetection:
     async def test_single_detection(self, client: httpx.AsyncClient):
         async with aconnect_ws("/object-detection", client) as websocket:
-            with open(people_image_file, "rb") as image:
+            with open(coffee_shop_image_file, "rb") as image:
                 await websocket.send_bytes(image.read())
                 result = await websocket.receive_json()
                 objects = result["objects"]
                 assert len(objects) > 0
                 for object in objects:
                     assert "box" in object
-                    assert object["label"] in {"person", "cell phone"}
+                    assert object["label"] in detected_labels
 
     async def test_backpressure(self, client: httpx.AsyncClient):
         QUEUE_LIMIT = 10
         async with aconnect_ws("/object-detection", client) as websocket:
-            with open(people_image_file, "rb") as image:
+            with open(coffee_shop_image_file, "rb") as image:
                 bytes = image.read()
                 for _ in range(QUEUE_LIMIT + 1):
                     await websocket.send_bytes(bytes)

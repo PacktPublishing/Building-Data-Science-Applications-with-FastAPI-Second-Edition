@@ -5,7 +5,7 @@ from PIL import Image, ImageDraw
 from transformers import YolosFeatureExtractor, YolosForObjectDetection
 
 root_directory = Path(__file__).parent.parent
-picture_path = root_directory / "assets" / "people.jpg"
+picture_path = root_directory / "assets" / "coffee-shop.jpg"
 image = Image.open(picture_path)
 
 feature_extractor = YolosFeatureExtractor.from_pretrained("hustvl/yolos-tiny")
