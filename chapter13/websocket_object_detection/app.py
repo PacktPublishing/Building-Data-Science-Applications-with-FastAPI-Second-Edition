@@ -59,11 +59,12 @@ object_detection = ObjectDetection()
 
 
 async def receive(websocket: WebSocket, queue: asyncio.Queue):
-    bytes = await websocket.receive_bytes()
-    try:
-        queue.put_nowait(bytes)
-    except asyncio.QueueFull:
-        pass
+    while True:
+        bytes = await websocket.receive_bytes()
+        try:
+            queue.put_nowait(bytes)
+        except asyncio.QueueFull:
+            pass
 
 
 async def detect(websocket: WebSocket, queue: asyncio.Queue):
@@ -78,13 +79,19 @@ async def detect(websocket: WebSocket, queue: asyncio.Queue):
 async def ws_object_detection(websocket: WebSocket):
     await websocket.accept()
     queue: asyncio.Queue = asyncio.Queue(maxsize=1)
+    receive_task = asyncio.create_task(receive(websocket, queue))
     detect_task = asyncio.create_task(detect(websocket, queue))
     try:
-        while True:
-            await receive(websocket, queue)
+        done, pending = await asyncio.wait(
+            {receive_task, detect_task},
+            return_when=asyncio.FIRST_COMPLETED,
+        )
+        for task in pending:
+            task.cancel()
+        for task in done:
+            task.result()
     except WebSocketDisconnect:
-        detect_task.cancel()
-        await websocket.close()
+        pass
 
 
 @app.get("/")
