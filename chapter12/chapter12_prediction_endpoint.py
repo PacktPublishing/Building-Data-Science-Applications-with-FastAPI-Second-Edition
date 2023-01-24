@@ -15,8 +15,8 @@ class PredictionOutput(BaseModel):
 
 
 class NewsgroupsModel:
-    model: Pipeline | None
-    targets: list[str] | None
+    model: Pipeline | None = None
+    targets: list[str] | None = None
 
     def load_model(self) -> None:
         """Loads the model"""

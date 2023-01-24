@@ -21,8 +21,8 @@ class Objects(BaseModel):
 
 
 class ObjectDetection:
-    feature_extractor: YolosFeatureExtractor | None
-    model: YolosForObjectDetection | None
+    feature_extractor: YolosFeatureExtractor | None = None
+    model: YolosForObjectDetection | None = None
 
     def load_model(self) -> None:
         """Loads the model"""
