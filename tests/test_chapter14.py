@@ -1,9 +1,9 @@
 from PIL import Image
 
-from chapter14.chapter14_text_to_image import TextToImage
+from chapter14.text_to_image import TextToImage
 
 
-def test_chapter_14_text_to_image():
+def test_text_to_image():
     text_to_image = TextToImage()
     text_to_image.load_model()
     image = text_to_image.generate(
