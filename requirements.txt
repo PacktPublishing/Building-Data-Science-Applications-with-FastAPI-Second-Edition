@@ -14,7 +14,7 @@ passlib==1.7.4
 Pillow==9.4.0
 python-multipart==0.0.5
 scikit-learn==1.2.0
-sqlalchemy[asyncio,mypy]==1.4.44
+sqlalchemy[asyncio,mypy]==2.0.0
 starlette-csrf==1.4.5
 transformers[torch]==4.25.1
 

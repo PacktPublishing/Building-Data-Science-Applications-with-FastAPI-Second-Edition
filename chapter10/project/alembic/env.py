@@ -1,3 +1,4 @@
+import typing
 from logging.config import fileConfig
 
 from alembic import context
@@ -63,7 +64,9 @@ def run_migrations_online() -> None:
 
     """
     connectable = engine_from_config(
-        config.get_section(config.config_ini_section),
+        typing.cast(
+            dict[str, typing.Any], config.get_section(config.config_ini_section)
+        ),
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
     )

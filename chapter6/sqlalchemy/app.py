@@ -1,3 +1,5 @@
+from collections.abc import Sequence
+
 from fastapi import Depends, FastAPI, HTTPException, Query, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -39,7 +41,7 @@ async def get_post_or_404(
 async def list_posts(
     pagination: tuple[int, int] = Depends(pagination),
     session: AsyncSession = Depends(get_async_session),
-) -> list[Post]:
+) -> Sequence[Post]:
     skip, limit = pagination
     select_query = select(Post).offset(skip).limit(limit)
     result = await session.execute(select_query)

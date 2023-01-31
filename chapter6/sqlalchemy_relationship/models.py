@@ -1,28 +1,34 @@
 from datetime import datetime
 
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Text
-from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy import DateTime, ForeignKey, Integer, String, Text
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
-Base = declarative_base()
+
+class Base(DeclarativeBase):
+    pass
 
 
 class Comment(Base):
     __tablename__ = "comments"
 
-    id: int = Column(Integer, primary_key=True, autoincrement=True)
-    post_id: int = Column(ForeignKey("posts.id"), nullable=False)
-    publication_date: datetime = Column(DateTime, nullable=False, default=datetime.now)
-    content: str = Column(Text, nullable=False)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    post_id: Mapped[int] = mapped_column(ForeignKey("posts.id"), nullable=False)
+    publication_date: Mapped[datetime] = mapped_column(
+        DateTime, nullable=False, default=datetime.now
+    )
+    content: Mapped[str] = mapped_column(Text, nullable=False)
 
-    post: "Post" = relationship("Post", back_populates="comments")
+    post: Mapped["Post"] = relationship("Post", back_populates="comments")
 
 
 class Post(Base):
     __tablename__ = "posts"
 
-    id: int = Column(Integer, primary_key=True, autoincrement=True)
-    publication_date: datetime = Column(DateTime, nullable=False, default=datetime.now)
-    title: str = Column(String(255), nullable=False)
-    content: str = Column(Text, nullable=False)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    publication_date: Mapped[datetime] = mapped_column(
+        DateTime, nullable=False, default=datetime.now
+    )
+    title: Mapped[str] = mapped_column(String(255), nullable=False)
+    content: Mapped[str] = mapped_column(Text, nullable=False)
 
-    comments: list[Comment] = relationship("Comment", cascade="all, delete")
+    comments: Mapped[list[Comment]] = relationship("Comment", cascade="all, delete")

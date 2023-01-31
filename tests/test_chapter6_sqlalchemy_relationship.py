@@ -5,8 +5,7 @@ import httpx
 import pytest
 import pytest_asyncio
 from fastapi import status
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
 from chapter6.sqlalchemy_relationship.app import app
 from chapter6.sqlalchemy_relationship.database import get_async_session
@@ -15,7 +14,7 @@ from chapter6.sqlalchemy_relationship.models import Base, Comment, Post
 DATABASE_FILE_PATH = "chapter6_sqlalchemy.test.db"
 DATABASE_URL = f"sqlite+aiosqlite:///{DATABASE_FILE_PATH}"
 engine = create_async_engine(DATABASE_URL)
-async_session_maker = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
+async_session_maker = async_sessionmaker(engine, expire_on_commit=False)
 
 
 async def get_test_async_session() -> AsyncGenerator[AsyncSession, None]:
