@@ -1,30 +1,33 @@
 import uuid
-from celery import Celery
-from celery.signals import worker_process_init
 
+import dramatiq
+from dramatiq.brokers.redis import RedisBroker
+from dramatiq.middleware.middleware import Middleware
 
 from chapter14.text_to_image import TextToImage
 
-app = Celery("worker", broker="redis://localhost:6379/0")
-text_to_image = TextToImage()
+
+class TextToImageMiddleware(Middleware):
+    def __init__(self) -> None:
+        super().__init__()
+        self.text_to_image = TextToImage()
+
+    def after_process_boot(self, broker):
+        self.text_to_image.load_model()
+        return super().after_process_boot(broker)
 
 
-@worker_process_init.connect()
-def init_worker_process(**kwargs):
-    """
-    load model before running tasks
-    :param kwargs:
-    :return:
-    """
-    global text_to_image
-    text_to_image.load_model()
+text_to_image_middleware = TextToImageMiddleware()
+redis_broker = RedisBroker(host="localhost")
+redis_broker.add_middleware(text_to_image_middleware)
+dramatiq.set_broker(redis_broker)
 
 
-@app.task
+@dramatiq.actor()
 def text_to_image_task(
     prompt: str, *, negative_prompt: str | None = None, num_steps: int = 50
 ):
-    image = text_to_image.generate(
+    image = text_to_image_middleware.text_to_image.generate(
         prompt, negative_prompt=negative_prompt, num_steps=num_steps
     )
     image.save(f"{uuid.uuid4()}.png")
