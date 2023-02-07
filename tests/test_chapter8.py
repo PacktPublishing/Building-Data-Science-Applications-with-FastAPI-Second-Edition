@@ -32,7 +32,6 @@ class TestChapter8Echo:
 class TestChapter8Concurrency:
     async def test_echo(self, client: httpx.AsyncClient):
         async with aconnect_ws("/ws", client) as websocket:
-
             message_time = await websocket.receive_text()
 
             await websocket.send_text("Hello")

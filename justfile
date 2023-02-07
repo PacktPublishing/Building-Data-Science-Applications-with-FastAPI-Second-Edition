@@ -6,12 +6,12 @@ default:
 lint:
   black .
   ruff --fix .
-  mypy .
+  mypy chapter*/
 
 lint-check:
   black --check .
   ruff .
-  mypy .
+  mypy chapter*/
 
 test:
   pytest

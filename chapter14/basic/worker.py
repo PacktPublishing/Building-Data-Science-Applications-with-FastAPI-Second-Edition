@@ -4,7 +4,7 @@ import dramatiq
 from dramatiq.brokers.redis import RedisBroker
 from dramatiq.middleware.middleware import Middleware
 
-from chapter14.text_to_image import TextToImage
+from chapter14.basic.text_to_image import TextToImage
 
 
 class TextToImageMiddleware(Middleware):
