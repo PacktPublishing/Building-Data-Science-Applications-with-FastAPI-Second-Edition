@@ -37,7 +37,7 @@ async def get_storage() -> Storage:
 @app.post(
     "/generated-images",
     response_model=schemas.GeneratedImageRead,
-    status_code=status.HTTP_202_ACCEPTED,
+    status_code=status.HTTP_201_CREATED,
 )
 async def create_generated_image(
     generated_image_create: schemas.GeneratedImageCreate,
