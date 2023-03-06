@@ -2,7 +2,7 @@ import torch
 from fastapi import FastAPI, File, UploadFile
 from PIL import Image
 from pydantic import BaseModel
-from transformers import YolosFeatureExtractor, YolosForObjectDetection
+from transformers import AutoImageProcessor, AutoModelForObjectDetection
 
 
 class Object(BaseModel):
@@ -15,26 +15,26 @@ class Objects(BaseModel):
 
 
 class ObjectDetection:
-    feature_extractor: YolosFeatureExtractor | None = None
-    model: YolosForObjectDetection | None = None
+    image_processor: AutoImageProcessor | None = None
+    model: AutoModelForObjectDetection | None = None
 
     def load_model(self) -> None:
         """Loads the model"""
-        self.feature_extractor = YolosFeatureExtractor.from_pretrained(
+        self.image_processor = AutoImageProcessor.from_pretrained(
             "hustvl/yolos-tiny"
         )
-        self.model = YolosForObjectDetection.from_pretrained("hustvl/yolos-tiny")
+        self.model = AutoModelForObjectDetection.from_pretrained("hustvl/yolos-tiny")
 
     def predict(self, image: Image.Image) -> Objects:
         """Runs a prediction"""
-        if not self.feature_extractor or not self.model:
+        if not self.image_processor or not self.model:
             raise RuntimeError("Model is not loaded")
-        inputs = self.feature_extractor(images=image, return_tensors="pt")
+        inputs = self.image_processor(images=image, return_tensors="pt")
         outputs = self.model(**inputs)
 
         target_sizes = torch.tensor([image.size[::-1]])
-        results = self.feature_extractor.post_process(
-            outputs, target_sizes=target_sizes
+        results = self.image_processor.post_process_object_detection(
+            outputs, threshold=0.7, target_sizes=target_sizes
         )[0]
 
         objects: list[Object] = []

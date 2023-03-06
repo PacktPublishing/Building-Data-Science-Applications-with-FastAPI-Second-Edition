@@ -2,20 +2,20 @@ from pathlib import Path
 
 import torch
 from PIL import Image, ImageDraw
-from transformers import YolosFeatureExtractor, YolosForObjectDetection
+from transformers import AutoImageProcessor, AutoModelForObjectDetection
 
 root_directory = Path(__file__).parent.parent
 picture_path = root_directory / "assets" / "coffee-shop.jpg"
 image = Image.open(picture_path)
 
-feature_extractor = YolosFeatureExtractor.from_pretrained("hustvl/yolos-tiny")
-model = YolosForObjectDetection.from_pretrained("hustvl/yolos-tiny")
+image_processor = AutoImageProcessor.from_pretrained("hustvl/yolos-tiny")
+model = AutoModelForObjectDetection.from_pretrained("hustvl/yolos-tiny")
 
-inputs = feature_extractor(images=image, return_tensors="pt")
+inputs = image_processor(images=image, return_tensors="pt")
 outputs = model(**inputs)
 
 target_sizes = torch.tensor([image.size[::-1]])
-results = feature_extractor.post_process(outputs, target_sizes=target_sizes)[0]
+results = image_processor.post_process(outputs, target_sizes=target_sizes)[0]
 
 draw = ImageDraw.Draw(image)
 for score, label, box in zip(results["scores"], results["labels"], results["boxes"]):
