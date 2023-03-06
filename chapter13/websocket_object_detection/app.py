@@ -26,9 +26,7 @@ class ObjectDetection:
 
     def load_model(self) -> None:
         """Loads the model"""
-        self.image_processor = AutoImageProcessor.from_pretrained(
-            "hustvl/yolos-tiny"
-        )
+        self.image_processor = AutoImageProcessor.from_pretrained("hustvl/yolos-tiny")
         self.model = AutoModelForObjectDetection.from_pretrained("hustvl/yolos-tiny")
 
     def predict(self, image: Image.Image) -> Objects:
