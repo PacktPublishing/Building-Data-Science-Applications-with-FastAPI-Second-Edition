@@ -1,11 +1,11 @@
 accelerate==0.16.0
-alembic==1.9.3
+alembic==1.10.0
 argon2_cffi==21.3.0
 broadcaster[redis]==0.2.0
-diffusers==0.12.1
+diffusers==0.14.0
 dramatiq[redis]==1.14.0
 email-validator==1.3.1
-fastapi==0.90.0
+fastapi==0.92.0
 httpx==0.23.3
 loguru==0.6.0
 minio==7.1.13
@@ -14,11 +14,11 @@ numpy==1.24.2
 pandas==1.5.3
 passlib==1.7.4
 Pillow==9.4.0
-python-multipart==0.0.5
+python-multipart==0.0.6
 scikit-learn==1.2.1
-sqlalchemy[asyncio,mypy]==2.0.2
-starlette-csrf==1.4.5
-transformers[torch]==4.26.0
+sqlalchemy[asyncio,mypy]==2.0.5.post1
+starlette-csrf==2.0.0
+transformers[torch]==4.26.1
 
 uvicorn[standard]
 
