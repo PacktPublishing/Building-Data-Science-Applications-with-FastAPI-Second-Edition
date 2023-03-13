@@ -1,13 +1,23 @@
 import asyncio
+import contextlib
 
 from broadcaster import Broadcast
 from fastapi import FastAPI, WebSocket
 from pydantic import BaseModel
 from starlette.websockets import WebSocketDisconnect
 
-app = FastAPI()
 broadcast = Broadcast("redis://localhost:6379")
 CHANNEL = "CHAT"
+
+
+@contextlib.asynccontextmanager
+async def lifespan(app: FastAPI):
+    await broadcast.connect()
+    yield
+    await broadcast.disconnect()
+
+
+app = FastAPI(lifespan=lifespan)
 
 
 class MessageEvent(BaseModel):
@@ -49,13 +59,3 @@ async def websocket_endpoint(websocket: WebSocket, username: str = "Anonymous"):
                 task.result()
     except WebSocketDisconnect:
         pass
-
-
-@app.on_event("startup")
-async def startup():
-    await broadcast.connect()
-
-
-@app.on_event("shutdown")
-async def shutdown():
-    await broadcast.disconnect()

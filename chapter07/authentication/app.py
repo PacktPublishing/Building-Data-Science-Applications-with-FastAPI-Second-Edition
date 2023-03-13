@@ -1,3 +1,4 @@
+import contextlib
 from datetime import datetime, timezone
 
 from fastapi import Depends, FastAPI, HTTPException, status
@@ -11,12 +12,14 @@ from chapter07.authentication.database import create_all_tables, get_async_sessi
 from chapter07.authentication.models import AccessToken, User
 from chapter07.authentication.password import get_password_hash
 
-app = FastAPI()
 
-
-@app.on_event("startup")
-async def startup():
+@contextlib.asynccontextmanager
+async def lifespan(app: FastAPI):
     await create_all_tables()
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 
 
 async def get_current_user(

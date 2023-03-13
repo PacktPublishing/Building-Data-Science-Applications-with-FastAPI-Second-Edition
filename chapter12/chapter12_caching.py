@@ -1,3 +1,4 @@
+import contextlib
 import os
 
 import joblib
@@ -44,8 +45,16 @@ class NewsgroupsModel:
         return PredictionOutput(category=category)
 
 
-app = FastAPI()
 newgroups_model = NewsgroupsModel()
+
+
+@contextlib.asynccontextmanager
+async def lifespan(app: FastAPI):
+    newgroups_model.load_model()
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 
 
 @app.post("/prediction")
@@ -58,8 +67,3 @@ def prediction(
 @app.delete("/cache", status_code=status.HTTP_204_NO_CONTENT)
 def delete_cache():
     memory.clear()
-
-
-@app.on_event("startup")
-async def startup():
-    newgroups_model.load_model()

@@ -1,5 +1,5 @@
 [tool.mypy]
-plugins = "sqlalchemy.ext.mypy.plugin"
+plugins = ["sqlalchemy.ext.mypy.plugin", "pydantic.mypy"]
 
 [[tool.mypy.overrides]]
 module = "motor.*"

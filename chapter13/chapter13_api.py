@@ -1,3 +1,5 @@
+import contextlib
+
 import torch
 from fastapi import FastAPI, File, UploadFile
 from PIL import Image
@@ -46,16 +48,19 @@ class ObjectDetection:
         return Objects(objects=objects)
 
 
-app = FastAPI()
 object_detection = ObjectDetection()
+
+
+@contextlib.asynccontextmanager
+async def lifespan(app: FastAPI):
+    object_detection.load_model()
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 
 
 @app.post("/object-detection", response_model=Objects)
 async def post_object_detection(image: UploadFile = File(...)) -> Objects:
     image_object = Image.open(image.file)
     return object_detection.predict(image_object)
-
-
-@app.on_event("startup")
-async def startup():
-    object_detection.load_model()

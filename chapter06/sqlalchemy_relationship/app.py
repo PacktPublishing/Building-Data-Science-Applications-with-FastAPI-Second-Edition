@@ -1,3 +1,4 @@
+import contextlib
 from collections.abc import Sequence
 
 from fastapi import Depends, FastAPI, HTTPException, Query, status
@@ -12,12 +13,14 @@ from chapter06.sqlalchemy_relationship.database import (
 )
 from chapter06.sqlalchemy_relationship.models import Comment, Post
 
-app = FastAPI()
 
-
-@app.on_event("startup")
-async def startup():
+@contextlib.asynccontextmanager
+async def lifespan(app: FastAPI):
     await create_all_tables()
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 
 
 async def pagination(

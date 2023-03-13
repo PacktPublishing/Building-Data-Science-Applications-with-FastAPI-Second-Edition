@@ -1,3 +1,4 @@
+import contextlib
 from collections.abc import Sequence
 
 from fastapi import Depends, FastAPI, HTTPException, Query, status
@@ -9,13 +10,15 @@ from project.database import get_async_session
 from project.models import Post
 from project.settings import settings
 
-app = FastAPI()
 
-
-@app.on_event("startup")
-async def startup():
+@contextlib.asynccontextmanager
+async def lifespan(app: FastAPI):
     if settings.debug:
         print(settings)
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 
 
 async def pagination(

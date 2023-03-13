@@ -1,4 +1,5 @@
 import asyncio
+import contextlib
 import io
 from pathlib import Path
 
@@ -52,8 +53,16 @@ class ObjectDetection:
         return Objects(objects=objects)
 
 
-app = FastAPI()
 object_detection = ObjectDetection()
+
+
+@contextlib.asynccontextmanager
+async def lifespan(app: FastAPI):
+    object_detection.load_model()
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 
 
 async def receive(websocket: WebSocket, queue: asyncio.Queue):
@@ -99,8 +108,3 @@ async def index():
 
 static_files_app = StaticFiles(directory=Path(__file__).parent / "assets")
 app.mount("/assets", static_files_app)
-
-
-@app.on_event("startup")
-async def startup():
-    object_detection.load_model()

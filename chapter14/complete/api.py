@@ -1,3 +1,5 @@
+import contextlib
+
 from fastapi import Depends, FastAPI, HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -9,12 +11,14 @@ from chapter14.complete.settings import settings
 from chapter14.complete.storage import Storage
 from chapter14.complete.worker import text_to_image_task
 
-app = FastAPI()
 
-
-@app.on_event("startup")
-async def startup():
+@contextlib.asynccontextmanager
+async def lifespan(app: FastAPI):
     await create_all_tables()
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 
 
 async def get_generated_image_or_404(

@@ -1,3 +1,4 @@
+import contextlib
 from datetime import datetime, timezone
 
 from fastapi import Depends, FastAPI, Form, HTTPException, Response, status
@@ -16,7 +17,14 @@ from chapter07.csrf.password import get_password_hash
 TOKEN_COOKIE_NAME = "token"
 CSRF_TOKEN_SECRET = "__CHANGE_THIS_WITH_YOUR_OWN_SECRET_VALUE__"
 
-app = FastAPI()
+
+@contextlib.asynccontextmanager
+async def lifespan(app: FastAPI):
+    await create_all_tables()
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 
 
 app.add_middleware(
@@ -33,11 +41,6 @@ app.add_middleware(
     sensitive_cookies={TOKEN_COOKIE_NAME},
     cookie_domain="localhost",
 )
-
-
-@app.on_event("startup")
-async def startup():
-    await create_all_tables()
 
 
 async def get_current_user(
