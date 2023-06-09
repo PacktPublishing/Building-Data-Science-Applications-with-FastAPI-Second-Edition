@@ -12,19 +12,14 @@ class TextToImage:
         # Enable CUDA GPU
         if torch.cuda.is_available():
             device = "cuda"
-            torch_dtype = torch.float16
         # Enable Apple Silicon (M1) GPU
         elif torch.backends.mps.is_available():
             device = "mps"
-            torch_dtype = torch.float16
         # Fallback to CPU
         else:
             device = "cpu"
-            torch_dtype = None
 
-        pipe = StableDiffusionPipeline.from_pretrained(
-            "runwayml/stable-diffusion-v1-5", torch_dtype=torch_dtype
-        )
+        pipe = StableDiffusionPipeline.from_pretrained("runwayml/stable-diffusion-v1-5")
         pipe.to(device)
         self.pipe = pipe
 

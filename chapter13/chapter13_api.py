@@ -4,7 +4,7 @@ import torch
 from fastapi import FastAPI, File, UploadFile
 from PIL import Image
 from pydantic import BaseModel
-from transformers import AutoImageProcessor, AutoModelForObjectDetection
+from transformers import YolosForObjectDetection, YolosImageProcessor
 
 
 class Object(BaseModel):
@@ -17,13 +17,13 @@ class Objects(BaseModel):
 
 
 class ObjectDetection:
-    image_processor: AutoImageProcessor | None = None
-    model: AutoModelForObjectDetection | None = None
+    image_processor: YolosImageProcessor | None = None
+    model: YolosForObjectDetection | None = None
 
     def load_model(self) -> None:
         """Loads the model"""
-        self.image_processor = AutoImageProcessor.from_pretrained("hustvl/yolos-tiny")
-        self.model = AutoModelForObjectDetection.from_pretrained("hustvl/yolos-tiny")
+        self.image_processor = YolosImageProcessor.from_pretrained("hustvl/yolos-tiny")
+        self.model = YolosForObjectDetection.from_pretrained("hustvl/yolos-tiny")
 
     def predict(self, image: Image.Image) -> Objects:
         """Runs a prediction"""

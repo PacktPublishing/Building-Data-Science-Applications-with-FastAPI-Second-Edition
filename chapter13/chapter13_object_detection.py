@@ -2,20 +2,22 @@ from pathlib import Path
 
 import torch
 from PIL import Image, ImageDraw, ImageFont
-from transformers import AutoImageProcessor, AutoModelForObjectDetection
+from transformers import YolosForObjectDetection, YolosImageProcessor
 
 root_directory = Path(__file__).parent.parent
 picture_path = root_directory / "assets" / "coffee-shop.jpg"
 image = Image.open(picture_path)
 
-image_processor = AutoImageProcessor.from_pretrained("hustvl/yolos-tiny")
-model = AutoModelForObjectDetection.from_pretrained("hustvl/yolos-tiny")
+image_processor = YolosImageProcessor.from_pretrained("hustvl/yolos-tiny")
+model = YolosForObjectDetection.from_pretrained("hustvl/yolos-tiny")
 
 inputs = image_processor(images=image, return_tensors="pt")
 outputs = model(**inputs)
 
 target_sizes = torch.tensor([image.size[::-1]])
-results = image_processor.post_process(outputs, target_sizes=target_sizes)[0]
+results = image_processor.post_process_object_detection(
+    outputs, target_sizes=target_sizes
+)[0]
 
 draw = ImageDraw.Draw(image)
 font_path = root_directory / "assets" / "OpenSans-ExtraBold.ttf"
