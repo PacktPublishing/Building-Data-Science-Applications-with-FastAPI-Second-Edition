@@ -1,4 +1,4 @@
-# Building Data Science Applications with FastAPI -Second Edition
+# Building Data Science Applications with FastAPI - Second Edition
 
 <a href="https://www.packtpub.com/product/building-data-science-applications-with-fastapi-second-edition/9781837632749?utm_source=github&utm_medium=repository&utm_campaign=9781837632749"><img src="https://content.packt.com/B19528/cover_image_small.jpg" alt="Building Data Science Applications with FastAPI -Second Edition" height="256px" align="right"></a>
 
@@ -18,7 +18,7 @@ This book covers the following exciting features:
 * Build a distributed text-to-image AI system with Stable Diffusion
 * Add metrics and logging and learn how to monitor them
 
-If you feel this book is for you, get your [copy](https://www.amazon.com/dp/B09NC5XJ6D) today!
+If you feel this book is for you, get your [copy](https://www.amazon.com/dp/B0C9D1QYVX) today!
 
 <a href="https://www.packtpub.com/?utm_source=github&utm_medium=banner&utm_campaign=GitHubBanner"><img src="https://raw.githubusercontent.com/PacktPublishing/GitHub/master/GitHub.png" 
 alt="https://www.packtpub.com/" border="5" /></a>
