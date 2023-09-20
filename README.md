@@ -1,3 +1,11 @@
+
+### [Packt Conference : Put Generative AI to work on Oct 11-13 (Virtual)](https://packt.link/JGIEY)
+
+<b><p align='center'>[![Packt Conference](https://hub.packtpub.com/wp-content/uploads/2023/08/put-generative-ai-to-work-packt.png)](https://packt.link/JGIEY)</p></b> 
+3 Days, 20+ AI Experts, 25+ Workshops and Power Talks 
+
+Code: <b>USD75OFF</b>
+
 # Building Data Science Applications with FastAPI - Second Edition
 
 <a href="https://www.packtpub.com/product/building-data-science-applications-with-fastapi-second-edition/9781837632749?utm_source=github&utm_medium=repository&utm_campaign=9781837632749"><img src="https://content.packt.com/B19528/cover_image_small.jpg" alt="Building Data Science Applications with FastAPI -Second Edition" height="256px" align="right"></a>
