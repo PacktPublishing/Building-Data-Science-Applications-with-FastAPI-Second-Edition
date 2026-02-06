@@ -12,7 +12,7 @@ motor==3.1.2
 numpy==1.24.3
 pandas==2.0.2
 passlib==1.7.4
-Pillow==9.5.0
+Pillow==10.0.1
 prometheus-fastapi-instrumentator==6.0.0
 pydantic==1.10.9
 python-multipart==0.0.6
